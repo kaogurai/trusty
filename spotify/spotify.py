@@ -522,7 +522,7 @@ class Spotify(commands.Cog):
         if service_name == "spotify":
             await self.initialize()
 
-    @commands.group(name="spotify", aliases=["sp"])
+    @commands.group(name="spotify", aliases=["sp", "s"])
     async def spotify_com(self, ctx: commands.Context):
         """
         Spotify commands
