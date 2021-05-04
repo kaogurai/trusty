@@ -982,7 +982,7 @@ class ServerStats(commands.Cog):
         if not is_cheater:
             await ctx.send(_("Not a cheater"))
 
-    @commands.command()
+    @commands.command(aliases=["lookup"])
     @commands.bot_has_permissions(read_message_history=True, add_reactions=True)
     async def whois(
         self, ctx: commands.Context, *, user_id: Union[int, discord.Member, discord.User]
