@@ -493,7 +493,7 @@ class EventPoster(commands.Cog):
             embed=em,
         )
 
-    @commands.command(name="join")
+    @commands.command(name="joinevent")
     @commands.guild_only()
     async def join_event(
         self,
