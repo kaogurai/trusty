@@ -84,7 +84,7 @@ class ServerStats(commands.Cog):
             if save:
                 await self.config.guild_from_id(guild_id).set(data)
 
-    @commands.command(aliases=["av")
+    @commands.command(aliases=["av"])
     @commands.bot_has_permissions(read_message_history=True, add_reactions=True, embed_links=True)
     async def avatar(self, ctx: commands.Context, *, members: Optional[FuzzyMember]):
         """
