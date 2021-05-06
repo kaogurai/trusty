@@ -117,7 +117,7 @@ class RoleToolsEvents(RoleToolsMixin):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member) -> None:
-        if member.bot
+        if member.bot:
             return
         await self._ready.wait()
         if await self.bot.cog_disabled_in_guild(self, member.guild):
