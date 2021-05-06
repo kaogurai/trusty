@@ -87,6 +87,8 @@ class RoleToolsEvents(RoleToolsMixin):
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member) -> None:
         await self._ready.wait()
+        if before.bot:
+            return
         if await self.bot.cog_disabled_in_guild(self, before.guild):
             return
         before_pending = getattr(before, "pending", False)
@@ -115,6 +117,8 @@ class RoleToolsEvents(RoleToolsMixin):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member) -> None:
+        if member.bot
+            return
         await self._ready.wait()
         if await self.bot.cog_disabled_in_guild(self, member.guild):
             return
