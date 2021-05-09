@@ -1335,32 +1335,6 @@ class ServerStats(commands.Cog):
             page_start=0,
         ).start(ctx=ctx)
 
-    @commands.command()
-    @checks.is_owner()
-    async def listchannels(self, ctx: commands.Context, *, guild: GuildConverter = None) -> None:
-        """
-        Lists channels and their position and ID for a server
-
-        `guild` can be either the server ID or name
-        """
-
-        if not guild:
-            guild = ctx.guild
-        msg = "__**{}({})**__\n".format(guild.name, guild.id)
-        for category in guild.by_category():
-            if category[0] is not None:
-                word = _("Position")
-                msg += "{0} ({1}): {2} {3}\n".format(
-                    category[0].mention, category[0].id, word, category[0].position
-                )
-            for channel in category[1]:
-                word = _("Position")
-                msg += "{0} ({1}): {2} {3}\n".format(
-                    channel.mention, channel.id, word, channel.position
-                )
-        for page in pagify(msg, ["\n"]):
-            await ctx.send(page)
-
     @staticmethod
     async def confirm_leave_guild(ctx: commands.Context, guild) -> None:
         await ctx.send(
