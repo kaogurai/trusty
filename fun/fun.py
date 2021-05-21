@@ -213,7 +213,8 @@ class Fun(commands.Cog):
                     reactions.append(emoji_dict[char][0])
                 else:
                     reactions.append(char)
-        await ctx.send(reactions)
+        reactions = filter(None.__ne__, reactions)
+      
         if not reactions:
             await ctx.send("I'm not in the server where that emote is from.")
             return
