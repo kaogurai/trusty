@@ -214,9 +214,7 @@ class Fun(commands.Cog):
                 else:
                     reactions.append(char)
                      
-        reactions = filter(None.__ne__, reactions)
-        
-        await ctx.send(reactions)
+        reactions = list(filter(None.__ne__, reactions))
       
         if not reactions:
             await ctx.send("I'm not in the server where that emote is from.")
