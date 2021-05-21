@@ -213,6 +213,10 @@ class Fun(commands.Cog):
                     reactions.append(emoji_dict[char][0])
                 else:
                     reactions.append(char)
+                     
+        if not reactions:
+            await ctx.send("I'm not in the server where that emote is from.")
+            return
 
         if message.channel.permissions_for(ctx.me).add_reactions:
             with contextlib.suppress(discord.HTTPException):
