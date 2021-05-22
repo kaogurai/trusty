@@ -73,6 +73,7 @@ class Fun(commands.Cog):
                     i = 0
                     while i < char_count:
                         # moving goal post necessitates while loop instead of for
+                        try:
                         if emoji_dict[char][i] not in react_me:
                             react_me = react_me.replace(char, emoji_dict[char][i], 1)
                         else:
@@ -187,12 +188,18 @@ class Fun(commands.Cog):
         if self.has_dupe(react_me):
             # there's a duplicate letter somewhere, so let's go ahead try to fix it.
             react_me = self.replace_combos(react_me)
-            react_me = self.replace_letters(react_me)
+            try:
+               react_me = self.replace_letters(react_me)
+            except IndexError:
+               pass
             # print(react_me)
             if self.has_dupe(react_me):  # check if we were able to solve the dupe
                 react_me = react_me_original
                 react_me = self.replace_combos(react_me)
-                react_me = self.replace_letters(react_me)
+                try:
+                  react_me = self.replace_letters(react_me)
+                except IndexError:
+                  pass
                 if self.has_dupe(react_me):
                     # this failed too, so there's really nothing we can do anymore.
                     return await ctx.send(
