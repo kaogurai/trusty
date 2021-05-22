@@ -73,7 +73,6 @@ class Fun(commands.Cog):
                     i = 0
                     while i < char_count:
                         # moving goal post necessitates while loop instead of for
-                        try:
                         if emoji_dict[char][i] not in react_me:
                             react_me = react_me.replace(char, emoji_dict[char][i], 1)
                         else:
