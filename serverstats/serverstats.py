@@ -1433,7 +1433,7 @@ class ServerStats(commands.Cog):
 
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
-    @checks.admin()
+    @commands.admin_or_permissions(manage_guild=True)
     @commands.bot_has_permissions(read_message_history=True, add_reactions=True, embed_links=True)
     async def getguilds(self, ctx: commands.Context, *, guilds: MultiGuildConverter) -> None:
         """
