@@ -128,6 +128,7 @@ class Fenrir(commands.Cog):
         if payload.message_id in self.mutes:
             mutes = self.bot.get_cog("Mutes")
             role = await mutes.config.guild(guild).mute_role()
+            r = guild.get_role(role)
             member = guild.get_member(payload.user_id)
             if member is None:
                 return
@@ -136,7 +137,7 @@ class Fenrir(commands.Cog):
             if await self.is_mod_or_admin(member):
                 return
             try:
-                await member.add_roles(role, reason="They asked for it.")
+                await member.add_roles(r, reason="They asked for it.")
             except Exception:
                 return
         if payload.message_id in self.feedback:
