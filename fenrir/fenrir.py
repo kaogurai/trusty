@@ -58,14 +58,12 @@ class Fenrir(commands.Cog):
     @commands.check(lambda ctx: ctx.bot.get_cog("Mutes"))
     async def fenrirmute(self, ctx: commands.Context) -> None:
         """Create a reaction emoji to mute users"""
-        mutes = self.bot.get_cog("Mutes")
-        role = await mutes.config.guild(ctx.guild).mute_role()
         if not role:
             return await ctx.send("No mute role has been setup on this server.")
         msg = await ctx.send("React to this message to be muted!")
         await msg.add_reaction("✅")
         await msg.add_reaction("❌")
-        self.mutes.append(msg.id, role)
+        self.mutes.append(msg.id)
 
     @commands.command(aliases=["fenririnsult"])
     @checks.mod_or_permissions(manage_messages=True)
@@ -126,6 +124,8 @@ class Fenrir(commands.Cog):
             except Exception:
                 return
         if payload.message_id in self.mutes:
+            mutes = self.bot.get_cog("Mutes")
+            role = await mutes.config.guild(guild).mute_role()
             member = guild.get_member(payload.user_id)
             if member is None:
                 return
@@ -134,8 +134,7 @@ class Fenrir(commands.Cog):
             if await self.is_mod_or_admin(member):
                 return
             try:
-                r = role
-                await member.add_roles(r, reason="They asked for it.")
+                await member.add_roles(role, reason="They asked for it.")
             except Exception:
                 return
         if payload.message_id in self.feedback:
