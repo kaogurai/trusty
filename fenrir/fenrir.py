@@ -18,10 +18,6 @@ class Fenrir(commands.Cog):
         self.bans: list = []
         self.mutes: list = []
         self.feedback: dict = {}
-        default_guild: dict = {"mute_role": None}
-
-        self.config: Config = Config.get_conf(self, 228492507124596736)
-        self.config.register_guild(**default_guild)
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -47,21 +43,6 @@ class Fenrir(commands.Cog):
         self.kicks.append(msg.id)
 
     @commands.command()
-    @checks.admin_or_permissions(manage_roles=True)
-    @commands.guild_only()
-    async def fenrirset(self, ctx: commands.Context, *, role: discord.Role = None) -> None:
-        """
-        Sets the mute role for fenrirmute to work
-
-        if no role is provided it will disable the command
-        """
-        if role:
-            await self.config.guild(ctx.guild).mute_role.set(role.id)
-        else:
-            await self.config.guild(ctx.guild).mute_role.set(role)
-        await ctx.tick()
-
-    @commands.command()
     @checks.admin_or_permissions(ban_members=True)
     @commands.guild_only()
     async def fenrirban(self, ctx: commands.Context) -> None:
@@ -74,14 +55,17 @@ class Fenrir(commands.Cog):
     @commands.command()
     @checks.admin_or_permissions(ban_members=True)
     @commands.guild_only()
+    @commands.check(lambda ctx: ctx.bot.get_cog("Mutes"))
     async def fenrirmute(self, ctx: commands.Context) -> None:
         """Create a reaction emoji to mute users"""
-        if not await self.config.guild(ctx.guild).mute_role():
+        mutes = self.bot.get_cog("Mutes")
+        role = await mutes.config.guild(ctx.guild).mute_role()
+        if not role:
             return await ctx.send("No mute role has been setup on this server.")
         msg = await ctx.send("React to this message to be muted!")
         await msg.add_reaction("✅")
         await msg.add_reaction("❌")
-        self.mutes.append(msg.id)
+        self.mutes.append(msg.id, role)
 
     @commands.command(aliases=["fenririnsult"])
     @checks.mod_or_permissions(manage_messages=True)
@@ -150,7 +134,7 @@ class Fenrir(commands.Cog):
             if await self.is_mod_or_admin(member):
                 return
             try:
-                r = guild.get_role(await self.config.guild(guild).mute_role())
+                r = role
                 await member.add_roles(r, reason="They asked for it.")
             except Exception:
                 return
