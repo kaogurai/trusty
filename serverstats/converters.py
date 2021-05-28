@@ -220,6 +220,10 @@ class PermissionConverter(IDConverter):
                 "view_channel",
         ]
         match = re.match(r"|".join(i for i in valid_perms), argument, flags=re.I)
+        
+        if match is None:
+            await ctx.send("That's not a valid permission.")
+            return
 
         result = match.group(0)
 
