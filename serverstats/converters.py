@@ -222,8 +222,7 @@ class PermissionConverter(IDConverter):
         match = re.match(r"|".join(i for i in valid_perms), argument, flags=re.I)
         
         if match is None:
-            await ctx.send("That's not a valid permission.")
-            return
+            raise BadArgument(f"Permission `{argument}` not found")
 
         result = match.group(0)
 
