@@ -531,6 +531,8 @@ class SpotifyPages(menus.PageSource):
                 cur_state = await user_spotify.playback()
                 if not cur_state:
                     raise NotPlaying
+                if not cur_state.item:
+                    raise NotPlaying
                 is_liked = False
                 if not getattr(cur_state.item, "is_local", False):
                     song = cur_state.item.id
