@@ -273,8 +273,11 @@ class Spotify(commands.Cog):
             return await ctx.send(_("Credentials not valid"))
         reply_msg = _("Your authorization has been set!")
         await author.send(reply_msg)
-
-        user_token = await auth.request_token(url=redirected)
+        try:
+            user_token = await auth.request_token(url=redirected)
+        except:
+            await ctx.send("Something went wrong with the Spotify API, please try again later.")
+            return
         await self.save_token(author, user_token)
 
         del self.temp_cache[author.id]
