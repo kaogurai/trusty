@@ -55,10 +55,11 @@ class Fenrir(commands.Cog):
     @commands.command()
     @checks.admin_or_permissions(ban_members=True)
     @commands.guild_only()
-    @commands.check(lambda ctx: ctx.bot.get_cog("Mutes"))
     async def fenrirmute(self, ctx: commands.Context) -> None:
         """Create a reaction emoji to mute users"""
         mutes = self.bot.get_cog("Mutes")
+        if mutes is None:
+            return
         role = await mutes.config.guild(ctx.guild).mute_role()
         if not role:
             return await ctx.send("No mute role has been setup on this server.")
