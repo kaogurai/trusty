@@ -68,17 +68,6 @@ class Fenrir(commands.Cog):
         await msg.add_reaction("❌")
         self.mutes.append(msg.id)
 
-    @commands.command(aliases=["fenririnsult"])
-    @checks.mod_or_permissions(manage_messages=True)
-    @commands.guild_only()
-    @commands.check(lambda ctx: ctx.bot.get_cog("Insult"))
-    async def fenrirfeedback(self, ctx: commands.Context) -> None:
-        """Create a reaction emoji to insult users"""
-        msg = await ctx.send("React to this message to be insulted!")
-        await msg.add_reaction("✅")
-        await msg.add_reaction("❌")
-        self.feedback[msg.id] = []
-
     async def is_mod_or_admin(self, member: discord.Member) -> bool:
         guild = member.guild
         if member == guild.owner:
