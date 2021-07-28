@@ -83,24 +83,7 @@ class ServerStats(commands.Cog):
                     save = True
             if save:
                 await self.config.guild_from_id(guild_id).set(data)
-
-    @commands.command(aliases=["av"])
-    @commands.bot_has_permissions(read_message_history=True, add_reactions=True, embed_links=True)
-    async def avatar(self, ctx: commands.Context, *, members: Optional[FuzzyMember]):
-        """
-        Display a users avatar in chat
-        """
-        if members is None:
-            members = [ctx.author]
-
-        await BaseMenu(
-            source=AvatarPages(members=members),
-            delete_message_after=False,
-            clear_reactions_after=True,
-            timeout=60,
-            cog=self,
-        ).start(ctx=ctx)
-
+                
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild):
         """Build and send a message containing serverinfo when the bot joins a new server"""
