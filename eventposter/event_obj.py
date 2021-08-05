@@ -236,7 +236,7 @@ class Event:
 
         em.description = _(
             "**{description}**\n\nTo join this event type "
-            "`{prefix}join {hoster}` or react to this message with "
+            "`{prefix}joinevent {hoster}` or react to this message with "
             "\N{WHITE HEAVY CHECK MARK}\n\n{max_slots_msg} "
         ).format(
             description=self.event[:1024],
