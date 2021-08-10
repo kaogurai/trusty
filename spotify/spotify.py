@@ -230,17 +230,14 @@ class Spotify(commands.Cog):
         auth = tekore.UserAuth(self._credentials, scope=scope)
         self.temp_cache[author.id] = auth
 
-        msg = _(
-            "Please accept the authorization in the following link and reply "
-            "to me with the full url\n\n {auth}"
-        ).format(auth=auth.url)
+        title = "Please click here to authorize me to access your spotify."
 
         def check(message):
             return (author.id in self.dashboard_authed) or (
                 message.author.id == author.id and self._tokens[-1] in message.content
             )
-
-        await author.send(msg)
+        e = discord.Embed(color=await ctx.embed_color(), title=title, url= auth.url)
+        await author.send(embed=e)
         try:
             check_msg = await self.bot.wait_for("message", check=check, timeout=120)
         except asyncio.TimeoutError:
