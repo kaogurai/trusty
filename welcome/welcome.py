@@ -101,7 +101,7 @@ class Welcome(Events, commands.Cog):
             self.joined = {}
             await asyncio.sleep(300)
 
-    @commands.group()
+    @commands.group(aliases=["welcome"])
     @checks.admin_or_permissions(manage_channels=True)
     @commands.guild_only()
     async def welcomeset(self, ctx: commands.Context) -> None:
